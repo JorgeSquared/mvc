@@ -9,3 +9,4 @@
 
 
 echo 'Requested URL = "' . $_SERVER['QUERY_STRING'] . '"';
+echo 'Co obshauje proměnná $_SERVER: '; var_dump($_SERVER);
