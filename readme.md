@@ -103,3 +103,6 @@ Začnu [zde](https://code.tutsplus.com/tutorials/an-in-depth-guide-to-mod_rewrit
 
 Mimochodem samotný kurz obsahuje značné množství materiálu o regexech.
 Je třeba jen zjistit, co ta rewrite rules znamenají...
+
+## Regular expressions
+
