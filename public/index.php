@@ -7,7 +7,13 @@
  * URL maps to a specific *.php file, rendering the code unmaintainable
  */
 
+//echo 'Requested URL = "' . $_SERVER['QUERY_STRING'] . '"';
 
-echo 'Requested URL = "' . $_SERVER['QUERY_STRING'] . '"';
-//echo 'Co obshauje proměnná $_SERVER: '; var_dump($_SERVER);
-//phpinfo();
+/**
+ * Routing
+ */
+require 'Core/Router.php';
+
+$router = new Router();
+
+echo get_class($router);
