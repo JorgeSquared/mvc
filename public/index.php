@@ -21,6 +21,8 @@ $router->add('/posts/new', ['controller' => 'Posts', 'action' => 'new']);
 
 $url = $_SERVER['REQUEST_URI'];
 
+var_dump($url);
+
 if ($router->match($url)) {
     echo '<pre>';
     var_dump($router->getParams());
