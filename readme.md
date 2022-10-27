@@ -81,11 +81,7 @@ RewriteCond %{REQUEST_FILENAME} !-d [NC]
 RewriteRule ^(.*)$ /index.php?$1 [L,QSA]
 ```
 
-Toto chování je momentálně přibližně simulováno v souboru `~/routing.php` 
-
-```shell
-php -S localhost:8000 public/routing.php
-```
+Toto chování je momentálně přibližně simulováno v souboru `~/routing.php`
 
 Spuštění aplikace se pak provede příkazem
 
