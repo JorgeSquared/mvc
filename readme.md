@@ -81,28 +81,14 @@ RewriteCond %{REQUEST_FILENAME} !-d [NC]
 RewriteRule ^(.*)$ /index.php?$1 [L,QSA]
 ```
 
-Jak toto chování nasimulovat pomocí vhodného konfiguračního souboru je
-momentálně předmětem dalšího zkoumání, o jehož výsledcích budeme v tomto
-readme informovat.
-
-Každopádně pokud už máme routovací php soubor, jehož obsah odpovídá
-požadovanému chování, je třeba server spustit příkazem
+Toto chování je momentálně přibližně simulováno v souboru `~/routing.php` 
 
 ```shell
 php -S localhost:8000 public/routing.php
 ```
 
-## Další plán postupu
+Spuštění aplikace se pak provede příkazem
 
-Je potřeba přijít na to, jak požadovaná rewrite rules, s kterými umí pracovat
-Apache server, přeložit do jazyka, kterému bude rozumět PHP. Za tím cílem
-je třeb v první řadě zjistit, co jednotlivé rewrite rules znamenají.
-Zdá se, že podstatnou roli v nich smaozřejmě budou hrát regulární výrazy.
-
-Začnu [zde](https://code.tutsplus.com/tutorials/an-in-depth-guide-to-mod_rewrite-for-apache--net-6708)
-
-Mimochodem samotný kurz obsahuje značné množství materiálu o regexech.
-Je třeba jen zjistit, co ta rewrite rules znamenají...
-
-## Regular expressions
-
+```shell
+php -S localhost:8013 -t public routing.php
+```
