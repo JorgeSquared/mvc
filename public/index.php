@@ -17,11 +17,18 @@ $router = new Router();
 // Add the routes
 $router->add('/', ['controller' => 'Home', 'action' => 'index']);
 $router->add('/posts', ['controller' => 'Posts', 'action' => 'index']);
-$router->add('/posts/new', ['controller' => 'Posts', 'action' => 'new']);
+//$router->add('/posts/new', ['controller' => 'Posts', 'action' => 'new']);
+$router->add('/{controller}/{action}');
+$router->add('/admin/{action}/{controller}');
 
 $url = $_SERVER['REQUEST_URI'];
 
-var_dump($url);
+//var_dump($url);
+
+// Display the routing table
+echo '<pre>';
+echo htmlspecialchars(print_r($router->getRoutes(), true));
+echo '</pre>';
 
 if ($router->match($url)) {
     echo '<pre>';
@@ -30,4 +37,3 @@ if ($router->match($url)) {
 } else {
     echo "No route found for the URL '$url'";
 }
-

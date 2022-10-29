@@ -23,8 +23,17 @@ class Router
      *
      * @return void
      */
-    public function add($route, $params)
+    public function add(string $route, array $params = []): void
     {
+        // Convert the route to a regular expression: first we need to escape forward slashes
+        $route = preg_replace('/\//', '\\/', $route);
+
+        // Convert variable parts, e.g. {controller} of the route to a named part of the regular expression
+        $route = preg_replace('/\{([a-z]+)\}/', '(?P<\1>[a-z-]+)', $route);
+
+        // Add start and end delimiters, and case insensitive flag
+        $route = '/^' . $route . '$/i';
+
         $this->routes[$route] = $params;
     }
 
@@ -33,7 +42,7 @@ class Router
      *
      * @return array
      */
-    public function getRoutes()
+    public function getRoutes(): array
     {
         return $this->routes;
     }
@@ -46,27 +55,12 @@ class Router
      *
      * @return boolean true if a match is found, false otherwise
      */
-    public function match($url)
+    public function match(string $url): bool
     {
-        /*foreach ($this->routes as $route => $params) {
-            if ($url == $route) {
-                $this->params = $params;
-                return true;
-            }
-        }
-
-        return false;*/
-
         // Match to the fixed URL format /controller/action
-        $reg_exp = "/^\/(?P<controller>[a-z-]+)\/(?P<action>[a-z-]+)$/";
+        //$reg_exp = "/^\/(?P<controller>[a-z-]+)\/(?P<action>[a-z-]+)$/";
 
-        //$url = '/';
-        /*var_dump($reg_exp);
-        var_dump($url);
-        var_dump(preg_match($reg_exp, $url, $matches));
-        var_dump($matches);die;*/
-
-        if (preg_match($reg_exp, $url, $matches)) {
+        /*if (preg_match($reg_exp, $url, $matches)) {
             // Get named capture group values
             $params = [];
 
@@ -77,7 +71,21 @@ class Router
             }
 
             $this->params = $params;
+
             return true;
+        }*/
+
+        foreach ($this->routes as $route => $params) {
+            if (preg_match($route, $url, $matches)) {
+                foreach ($matches as $key => $match) {
+                    if (is_string($key)) {
+                        $params[$key] = $match;
+                    }
+                }
+                $this->params = $params;
+
+                return true;
+            }
         }
 
         return false;
@@ -88,7 +96,7 @@ class Router
      *
      * @return array
      */
-    public function getParams()
+    public function getParams(): array
     {
         return $this->params;
     }
