@@ -20,10 +20,8 @@ $router = new Core\Router();
 $router->add('/', ['controller' => 'Home', 'action' => 'index']);
 $router->add('/posts', ['controller' => 'Posts', 'action' => 'index']);
 $router->add('/{controller}/{action}');
-$router->add('/admin/{action}/{controller}');
 $router->add('/{controller}/{id:\d+}/{action}');
-
-$url = $_SERVER['REQUEST_URI'];
+$router->add('/admin/{controller}/{action}', ['namespace' => 'Admin']);
 
 //$router->dispatch($_SERVER['QUERY_STRING']);
 $router->dispatch($_SERVER['REQUEST_URI']);
