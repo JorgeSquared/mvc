@@ -25,4 +25,5 @@ $router->add('/{controller}/{id:\d+}/{action}');
 
 $url = $_SERVER['REQUEST_URI'];
 
+//$router->dispatch($_SERVER['QUERY_STRING']);
 $router->dispatch($_SERVER['REQUEST_URI']);
