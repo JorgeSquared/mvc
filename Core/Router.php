@@ -1,5 +1,6 @@
 <?php
 
+namespace Core;
 
 class Router
 {
@@ -7,13 +8,13 @@ class Router
      * Associative array of routes (the routing table)
      * @var array
      */
-    protected $routes = [];
+    protected array $routes = [];
 
     /**
      * Parameters from the matched route
      * @var array
      */
-    protected $params = [];
+    protected array $params = [];
 
     /**
      * Add a route to the routing table
@@ -97,6 +98,7 @@ class Router
         if ($this->match($url)) {
             $controller = $this->params['controller'];
             $controller = $this->convertToStudlyCaps($controller);
+            $controller = "App\Controllers\\$controller";
 
             if (class_exists($controller)) {
                 $controller_object = new $controller();
