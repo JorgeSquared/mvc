@@ -16,7 +16,7 @@ class Home extends \Core\Controller
     protected function before(): bool
     {
         echo "(before) ";
-        return false;
+        return true;
     }
 
     /**
