@@ -57,6 +57,7 @@ abstract class Controller
      */
     protected function before(): bool
     {
+        return true;
     }
 
     /**

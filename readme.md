@@ -1,11 +1,11 @@
 Jak psát webové stránky v MVC architektuře
 ==============
-V tomto krátkém kurzu, pocházejícím od
-[Davea Hollingwortha](https://davehollingworth.com/), se naučíme, jak psát
+V tomto krátkém kurzu, inspirovaném
+[Davidem Hollingworthem](https://davehollingworth.com/), se naučíme, jak psát
 web za použití MVC architektury, namísto dříve velmi obvyklého špagetového kódu.
 
 Pozor: zdá se, že bez kvalitního a propracovaného designu, se i MVC může snadno
-zvrhnout do špaget.
+zvrhnout do špaget :smile: .
 
 ## Instrukce ke zprovoznění projektu
 Projekt by neměl být nikterak technologicky náročný. Používá se PHP,
@@ -21,7 +21,7 @@ Stačí tedy mít nainstalováno PHP a pak už jen ve složce
 spustit příkaz
 
 ```shell
-php -S localhost:8000 -t public/
+php -S localhost:8000 -t public
 ```
 
 čímž se na zvoleném portu spustí server s rootem nastaveným na složku `public`,
@@ -47,28 +47,16 @@ apache serveru, jehož rewrite rules jsou následující:
 ```
 simulovat pomocí konfiguračního souboru pojmenovaného například `routing.php`
 a umístěného rovněž ve složce `public` spolu se souborem `index.php`. Aby
-konfigurační soubor `routing.php` vykazoval chování dané výše zmíněnými rewrite rules
-musí být jeho obsah zrhuba následující:
+konfigurační soubor `routing.php` vykazoval chování alespoň trochu podobné
+výše zmíněným rewrite rules, měl by být jeho obsah alespoň následující:
 ```injectablephp
 <?php
-$root=__dir__;
 
-var_dump($root, 'jak vypadaá root'); //sem umístit komentáře, jak to funguje
-
-$uri=parse_url($_SERVER['REQUEST_URI'])['path'];
-
-var_dump($uri);
-$page=trim($uri,'/');
-var_dump($page);
-
-if (file_exists("$root/$page") && is_file("$root/$page")) {
-    return false; // serve the requested resource as-is.
-    exit;
+if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
+    return false;
+} else {
+    include __DIR__ . '/public/index.php';
 }
-
-$_GET['page']=$page;
-echo 'I am here';
-require_once 'index.php';
 ```
 
 V rámci projektu však budeme potřebovat rewrite rules, která budou vypadat
@@ -81,10 +69,29 @@ RewriteCond %{REQUEST_FILENAME} !-d [NC]
 RewriteRule ^(.*)$ /index.php?$1 [L,QSA]
 ```
 
-Toto chování je momentálně přibližně simulováno v souboru `~/routing.php`
+Toto chování je momentálně přibližně simulováno v souboru `routing.php`.
 
 Spuštění aplikace se pak provede příkazem
 
 ```shell
 php -S localhost:8013 -t public routing.php
+```
+
+## Konfigurace pomocí `php.ini`
+
+Při rekvírování různých šablonovacích enginů, zejména jejich starších verzí,
+se může stát, že se v kombinací s novějším PHP začnou vyskytovat
+různé deprecated zprávy. Ty je možné potlačit specifickou konfigurací
+v rámci soubour `php.ini` vloženého přímo do kořenového adresáře
+projektu.
+
+Do samotného souboru pak stačí přidat tento řádek:
+```injectablephp
+error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
+```
+
+a projekt je pak třeba spustit příkazem
+
+```shell
+php -S localhost:8001 -t public -c php.ini routing.php
 ```
