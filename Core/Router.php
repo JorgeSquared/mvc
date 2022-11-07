@@ -92,6 +92,7 @@ class Router
      *
      * @param string $url
      * @return void
+     * @throws \Exception
      */
     public function dispatch(string $url): void
     {
@@ -112,16 +113,13 @@ class Router
                     $controller_object->$action();
 
                 } else {
-                    throw new \Exception(
-                        "Method $action in controller $controller cannot be called directly 
-                        - remove the Action suffix to call this method"
-                    );
+                    throw new \Exception("Method $action (in controller $controller) not found");
                 }
             } else {
-                echo "Controller class $controller not found";
+                throw new \Exception("Controller class $controller not found");
             }
         } else {
-            echo 'No route matched.';
+            throw new \Exception('No route matched.');
         }
     }
 
